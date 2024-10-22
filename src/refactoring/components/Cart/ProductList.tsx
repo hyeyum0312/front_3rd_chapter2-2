@@ -1,4 +1,4 @@
-import { CartItem, Coupon, Product } from "../../../types";
+import { CartItem, Product } from "../../../types";
 import { getMaxDiscount, getRemainingStock } from "../../hooks/utils/cartUtils";
 
 interface Props {
