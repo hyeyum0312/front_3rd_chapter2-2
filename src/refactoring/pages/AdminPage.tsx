@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Coupon, Discount, Product } from "../../types.ts";
 import { NewProductForm } from "../components/Admin/NewProductForm.tsx";
 import { DiscountInfoItem } from "../components/Admin/DiscountInfoItem.tsx";
+import { AddDiscount } from "../components/Admin/AddDiscount.tsx";
 
 interface Props {
   products: Product[];
@@ -181,48 +182,7 @@ export const AdminPage = ({
                           setNewProduct={setNewProduct}
                           handleAddNewProduct={handleAddNewProduct}
                         />
-                        {/* <div className="mb-4">
-                          <label className="block mb-1">상품명: </label>
-                          <input
-                            type="text"
-                            value={editingProduct.name}
-                            onChange={(e) =>
-                              handleProductNameUpdate(
-                                product.id,
-                                e.target.value
-                              )
-                            }
-                            className="w-full p-2 border rounded"
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <label className="block mb-1">가격: </label>
-                          <input
-                            type="number"
-                            value={editingProduct.price}
-                            onChange={(e) =>
-                              handlePriceUpdate(
-                                product.id,
-                                parseInt(e.target.value)
-                              )
-                            }
-                            className="w-full p-2 border rounded"
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <label className="block mb-1">재고: </label>
-                          <input
-                            type="number"
-                            value={editingProduct.stock}
-                            onChange={(e) =>
-                              handleStockUpdate(
-                                product.id,
-                                parseInt(e.target.value)
-                              )
-                            }
-                            className="w-full p-2 border rounded"
-                          />
-                        </div> */}
+
                         {/* 할인 정보 수정 부분 */}
                         <div>
                           <h4 className="text-lg font-semibold mb-2">
@@ -237,39 +197,11 @@ export const AdminPage = ({
                               index={index}
                             />
                           ))}
-
-                          <div className="flex space-x-2">
-                            <input
-                              type="number"
-                              placeholder="수량"
-                              value={newDiscount.quantity}
-                              onChange={(e) =>
-                                setNewDiscount({
-                                  ...newDiscount,
-                                  quantity: parseInt(e.target.value),
-                                })
-                              }
-                              className="w-1/3 p-2 border rounded"
-                            />
-                            <input
-                              type="number"
-                              placeholder="할인율 (%)"
-                              value={newDiscount.rate * 100}
-                              onChange={(e) =>
-                                setNewDiscount({
-                                  ...newDiscount,
-                                  rate: parseInt(e.target.value) / 100,
-                                })
-                              }
-                              className="w-1/3 p-2 border rounded"
-                            />
-                            <button
-                              onClick={() => handleAddDiscount(product.id)}
-                              className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                            >
-                              할인 추가
-                            </button>
-                          </div>
+                          // 할인 추가
+                          <AddDiscount
+                            product={product}
+                            handleAddDiscount={handleAddDiscount}
+                          />
                         </div>
                         <button
                           onClick={handleEditComplete}
