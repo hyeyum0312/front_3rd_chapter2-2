@@ -1,4 +1,4 @@
-import { Product } from "../../../types";
+import { Product } from "../../../../types";
 
 interface Props {
   newProduct: Omit<Product, "id">; // id를 제외한 새로운 제품
