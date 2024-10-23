@@ -38,6 +38,7 @@ export const AddDiscount = ({ product, handleAddDiscount }: Props) => {
         }
         className="w-1/3 p-2 border rounded"
       />
+
       <button
         onClick={() => handleAddDiscount(product.id)}
         className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
