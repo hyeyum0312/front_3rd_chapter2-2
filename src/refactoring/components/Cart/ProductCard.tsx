@@ -9,7 +9,7 @@ interface Props {
   addToCart: (product: Product) => void;
 }
 
-export const ProductList = ({ product, cart, addToCart }: Props) => {
+export const ProductCard = ({ product, cart, addToCart }: Props) => {
   const remainingStock = getRemainingStock(cart, product);
 
   return (
@@ -44,6 +44,7 @@ export const ProductList = ({ product, cart, addToCart }: Props) => {
           ))}
         </ul>
       )}
+
       <Button
         label="-"
         onClick={() => addToCart(product)}

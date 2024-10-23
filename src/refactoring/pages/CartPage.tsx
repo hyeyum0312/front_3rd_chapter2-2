@@ -31,7 +31,7 @@ export const CartPage = ({ products, coupons }: Props) => {
           <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
           <div className="space-y-2">
             {products.map((product) => (
-              <ProductList
+              <ProductCard
                 key={product.id}
                 product={product}
                 cart={cart}
