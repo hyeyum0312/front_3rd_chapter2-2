@@ -16,7 +16,6 @@ export const Button = ({
   isDisabled = false,
   fullWidth = false,
   children,
-  ...rest
 }: Props) => {
   return (
     <StyledButton
@@ -24,7 +23,6 @@ export const Button = ({
       onClick={onClick}
       disabled={isDisabled}
       fullWidth={fullWidth}
-      {...rest}
     >
       {children || label}
     </StyledButton>

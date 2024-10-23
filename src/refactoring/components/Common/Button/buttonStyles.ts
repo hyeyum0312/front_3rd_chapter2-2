@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledButton = styled.button<{
-  variant: "primary" | "danger" | "secondary";
+  variant: "primary" | "danger" | "secondary" | "success";
   fullWidth: boolean;
 }>`
   padding: 0.25rem 0.5rem;
@@ -43,4 +43,15 @@ export const StyledButton = styled.button<{
       background-color: #9CA3AF;
     }
     `}
+
+    ${({ variant }) =>
+    variant === "success" &&
+    `
+      background-color: #22C55E;
+      color: #1F2937;
+  
+      &:hover {
+        background-color: #16A94A;
+      }
+      `}
 `;

@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const CartItemList = ({
-  key,
   cartItem,
   removeFromCart,
   updateQuantity,
@@ -18,10 +17,7 @@ export const CartItemList = ({
   const appliedDiscount = getAppliedDiscount(cartItem);
 
   return (
-    <div
-      key={key}
-      className="flex justify-between items-center bg-white p-3 rounded shadow"
-    >
+    <div className="flex justify-between items-center bg-white p-3 rounded shadow">
       <div>
         <span className="font-semibold">{cartItem.product.name}</span>
         <br />
@@ -40,6 +36,7 @@ export const CartItemList = ({
         <Button
           label="-"
           variant="secondary"
+          fullWidth={false}
           onClick={() =>
             updateQuantity(cartItem.product.id, cartItem.quantity - 1)
           }
@@ -47,6 +44,7 @@ export const CartItemList = ({
         <Button
           label="+"
           variant="secondary"
+          fullWidth={false}
           onClick={() =>
             updateQuantity(cartItem.product.id, cartItem.quantity + 1)
           }
@@ -54,6 +52,7 @@ export const CartItemList = ({
         <Button
           label="삭제"
           variant="danger"
+          fullWidth={false}
           onClick={() => removeFromCart(cartItem.product.id)}
         ></Button>
       </div>

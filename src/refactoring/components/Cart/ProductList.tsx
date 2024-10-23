@@ -1,21 +1,19 @@
 import { CartItem, Product } from "../../../types";
 import { getMaxDiscount, getRemainingStock } from "../../hooks/utils/cartUtils";
 import { Button } from "../Common/Button/Button";
+import { DiscountItem } from "./DiscountItem";
 
 interface Props {
-  key: string;
   product: Product;
   cart: CartItem[];
   addToCart: (product: Product) => void;
 }
 
-export const ProductList = ({ key, product, cart, addToCart }: Props) => {
+export const ProductList = ({ product, cart, addToCart }: Props) => {
   const remainingStock = getRemainingStock(cart, product);
-  console.log("key", key);
 
   return (
     <div
-      key={key}
       data-testid={`product-${product.id}`}
       className="bg-white p-3 rounded shadow"
     >
@@ -42,10 +40,7 @@ export const ProductList = ({ key, product, cart, addToCart }: Props) => {
       {product.discounts.length > 0 && (
         <ul className="list-disc list-inside text-sm text-gray-500 mb-2">
           {product.discounts.map((discount, index) => (
-            <li key={index}>
-              {discount.quantity}개 이상: {(discount.rate * 100).toFixed(0)}%
-              할인
-            </li>
+            <DiscountItem key={index} discount={discount} />
           ))}
         </ul>
       )}
