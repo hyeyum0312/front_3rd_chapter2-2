@@ -1,6 +1,8 @@
 import { CartItem, Coupon, Product } from "../../../types";
 
-export const getMaxDiscount = (discounts: { quantity: number; rate: number }[]) => {
+export const getMaxDiscount = (
+  discounts: { quantity: number; rate: number }[],
+) => {
   return discounts.reduce((max, discount) => Math.max(max, discount.rate), 0);
 };
 
@@ -11,7 +13,9 @@ export const getMaxApplicableDiscount = (item: CartItem) => {
   } = item;
 
   const discountRate = discounts.reduce((maxDiscount, d) => {
-    return quantity >= d.quantity && d.rate > maxDiscount ? d.rate : maxDiscount;
+    return quantity >= d.quantity && d.rate > maxDiscount
+      ? d.rate
+      : maxDiscount;
   }, 0);
 
   return discountRate;
@@ -28,7 +32,10 @@ export const calculateItemTotal = (item: CartItem) => {
   return price * quantity * (1 - discount);
 };
 
-export const calculateCartTotal = (cart: CartItem[], selectedCoupon: Coupon | null) => {
+export const calculateCartTotal = (
+  cart: CartItem[],
+  selectedCoupon: Coupon | null,
+) => {
   let totalBeforeDiscount = 0;
   let totalAfterDiscount = 0;
 
@@ -45,7 +52,10 @@ export const calculateCartTotal = (cart: CartItem[], selectedCoupon: Coupon | nu
   // 쿠폰 적용
   if (selectedCoupon) {
     if (selectedCoupon.discountType === "amount") {
-      totalAfterDiscount = Math.max(0, totalAfterDiscount - selectedCoupon.discountValue);
+      totalAfterDiscount = Math.max(
+        0,
+        totalAfterDiscount - selectedCoupon.discountValue,
+      );
     } else {
       totalAfterDiscount *= 1 - selectedCoupon.discountValue / 100;
     }
@@ -59,13 +69,19 @@ export const calculateCartTotal = (cart: CartItem[], selectedCoupon: Coupon | nu
   };
 };
 
-export const updateCartItemQuantity = (prevCart: CartItem[], productId: string, newQuantity: number): CartItem[] => {
+export const updateCartItemQuantity = (
+  prevCart: CartItem[],
+  productId: string,
+  newQuantity: number,
+): CartItem[] => {
   return prevCart
     .map((item) => {
       if (item.product.id === productId) {
         const maxQuantity = item.product.stock;
         const updatedQuantity = Math.max(0, Math.min(newQuantity, maxQuantity));
-        return updatedQuantity > 0 ? { ...item, quantity: updatedQuantity } : null;
+        return updatedQuantity > 0
+          ? { ...item, quantity: updatedQuantity }
+          : null;
       }
       return item;
     })
