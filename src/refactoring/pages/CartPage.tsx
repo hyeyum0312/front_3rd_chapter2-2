@@ -1,9 +1,9 @@
 import { Coupon, Product } from "../../types.ts";
 import { useCart } from "../hooks/index.ts";
 import { calculateCartTotal } from "../hooks/utils/cartUtils.ts";
-import { CartItemList } from "../components/Cart/CartItemList.tsx";
+import { CartListItem } from "../components/Cart/CartListItem.tsx";
 import { CouponSelector } from "../components/Cart/CouponSelector.tsx";
-import { ProductList } from "../components/Cart/ProductList.tsx";
+import { ProductCard } from "../components/Cart/ProductCard.tsx";
 import { CartTotalAmount } from "../components/Cart/CartTotalAmount.tsx";
 
 interface Props {
@@ -46,7 +46,7 @@ export const CartPage = ({ products, coupons }: Props) => {
           <div className="space-y-2">
             {cart.map((item) => {
               return (
-                <CartItemList
+                <CartListItem
                   key={item.product.id}
                   cartItem={item}
                   removeFromCart={removeFromCart}
