@@ -217,36 +217,27 @@ export const AdminPage = ({
                             onChange={(e) =>
                               handleStockUpdate(
                                 product.id,
-                                parseInt(e.target.value),
+                                parseInt(e.target.value)
                               )
                             }
                             className="w-full p-2 border rounded"
                           />
-                        </div>
+                        </div> */}
                         {/* 할인 정보 수정 부분 */}
                         <div>
                           <h4 className="text-lg font-semibold mb-2">
                             할인 정보
                           </h4>
                           {editingProduct.discounts.map((discount, index) => (
-                            <div
+                            <DiscountInfoItem
                               key={index}
-                              className="flex justify-between items-center mb-2"
-                            >
-                              <span>
-                                {discount.quantity}개 이상 구매 시{" "}
-                                {discount.rate * 100}% 할인
-                              </span>
-                              <button
-                                onClick={() =>
-                                  handleRemoveDiscount(product.id, index)
-                                }
-                                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                              >
-                                삭제
-                              </button>
-                            </div>
+                              discount={discount}
+                              handleRemoveDiscount={handleRemoveDiscount}
+                              product={product}
+                              index={index}
+                            />
                           ))}
+
                           <div className="flex space-x-2">
                             <input
                               type="number"
