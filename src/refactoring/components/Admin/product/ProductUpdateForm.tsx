@@ -1,4 +1,5 @@
-import { Product } from "../../../types";
+import { Product } from "../../../../types";
+import { useState, useEffect } from "react";
 
 interface Props {
   product: Product; // 수정할 제품 정보
@@ -10,11 +11,35 @@ interface Props {
 
 export const ProductUpdateForm = ({
   product,
-  editingProduct,
+  editingProduct: initialEditingProduct,
   handleProductNameUpdate,
   handlePriceUpdate,
   handleStockUpdate,
 }: Props) => {
+  const [editingProduct, setEditingProduct] = useState<Omit<Product, "id">>(
+    initialEditingProduct
+  );
+
+  // editingProduct가 변경될 때마다 상태를 업데이트
+  useEffect(() => {
+    setEditingProduct(initialEditingProduct);
+  }, [initialEditingProduct]);
+
+  const handleNameChange = (newName: string) => {
+    setEditingProduct((prev) => ({ ...prev, name: newName }));
+    handleProductNameUpdate(product.id, newName);
+  };
+
+  const handlePriceChange = (newPrice: number) => {
+    setEditingProduct((prev) => ({ ...prev, price: newPrice }));
+    handlePriceUpdate(product.id, newPrice);
+  };
+
+  const handleStockChange = (newStock: number) => {
+    setEditingProduct((prev) => ({ ...prev, stock: newStock }));
+    handleStockUpdate(product.id, newStock);
+  };
+
   return (
     <>
       <div className="mb-4">
@@ -22,7 +47,7 @@ export const ProductUpdateForm = ({
         <input
           type="text"
           value={editingProduct.name}
-          onChange={(e) => handleProductNameUpdate(product.id, e.target.value)}
+          onChange={(e) => handleNameChange(e.target.value)}
           className="w-full p-2 border rounded"
         />
       </div>
@@ -31,9 +56,7 @@ export const ProductUpdateForm = ({
         <input
           type="number"
           value={editingProduct.price}
-          onChange={(e) =>
-            handlePriceUpdate(product.id, parseInt(e.target.value))
-          }
+          onChange={(e) => handlePriceChange(parseInt(e.target.value) || 0)} // 기본값을 0으로 설정
           className="w-full p-2 border rounded"
         />
       </div>
@@ -42,9 +65,7 @@ export const ProductUpdateForm = ({
         <input
           type="number"
           value={editingProduct.stock}
-          onChange={(e) =>
-            handleStockUpdate(product.id, parseInt(e.target.value))
-          }
+          onChange={(e) => handleStockChange(parseInt(e.target.value) || 0)} // 기본값을 0으로 설정
           className="w-full p-2 border rounded"
         />
       </div>
