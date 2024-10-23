@@ -20,12 +20,20 @@ export const CartPage = ({ products, coupons }: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
-          <ProductList products={products} cart={cart} addToCart={addToCart} />
+          <div className="space-y-2">
+            {products.map((product) => (
+              <ProductList key={product.id} product={product} cart={cart} addToCart={addToCart} />
+            ))}
+          </div>
         </div>
 
         <div>
           <h2 className="text-2xl font-semibold mb-4">장바구니 내역</h2>
-          <CartItemList cart={cart} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />
+          <div className="space-y-2">
+            {cart.map((item) => {
+              return <CartItemList key={item.product.id} cartItem={item} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />;
+            })}
+          </div>
 
           <div className="mt-6 bg-white p-4 rounded shadow">
             <h2 className="text-2xl font-semibold mb-2">쿠폰 적용</h2>

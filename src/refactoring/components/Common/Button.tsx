@@ -34,8 +34,6 @@ const StyledButton = styled.button<{ variant: "default" | "danger" }>`
 `;
 
 export const Button = ({ onClick, label, variant = "default" }: Props) => {
-  console.log("variant", variant);
-
   return (
     <StyledButton variant={variant} onClick={onClick}>
       {label}
