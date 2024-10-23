@@ -96,7 +96,7 @@ export const ProductManager = ({
   };
 
   // 할인정보 추가
-  const handleAddDiscount = (productId: string) => {
+  const handleAddDiscount = (productId: string, newDiscount: Discount) => {
     const updatedProduct = products.find((p) => p.id === productId);
     if (updatedProduct && editingProduct) {
       const newProduct = {
