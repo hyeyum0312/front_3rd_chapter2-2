@@ -1,16 +1,12 @@
-import { Product } from "../../../../types";
+import { useProductStore } from "../../../store/useProductStore";
 
 interface Props {
-  newProduct: Omit<Product, "id">; // id를 제외한 새로운 제품
-  setNewProduct: React.Dispatch<React.SetStateAction<Omit<Product, "id">>>; // 새로운 제품 상태를 설정하는 함수
   handleAddNewProduct: () => void;
 }
 
-export const NewProductForm = ({
-  newProduct,
-  setNewProduct,
-  handleAddNewProduct,
-}: Props) => {
+export const NewProductForm = ({ handleAddNewProduct }: Props) => {
+  const { newProduct, setNewProduct } = useProductStore();
+
   return (
     <div className="bg-white p-4 rounded shadow mb-4">
       <h3 className="text-xl font-semibold mb-2">새 상품 추가</h3>

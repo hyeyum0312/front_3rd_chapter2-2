@@ -1,5 +1,5 @@
 import { Product } from "../../../../types";
-import { ProductDiscountUpdate } from "./ProductDiscountUpdate";
+import { ProductDiscountUpdate } from "./ProductDiscount/ProductDiscountUpdate";
 import { ProductUpdateForm } from "./ProductUpdateForm";
 
 interface Props {
