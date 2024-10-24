@@ -1,11 +1,10 @@
 import { Product } from "../../../../types";
-import { ProductItem } from "./ProductItem";
+
 interface product {
   product: Product;
   setEditingProduct: (product: Product | null) => void; // 타입 수정
 }
 export const ProductListItem = ({ product, setEditingProduct }: product) => {
-  // 수정 창 띄우기
   const handleEditProduct = (product: Product) => {
     setEditingProduct({ ...product });
   };
@@ -13,7 +12,11 @@ export const ProductListItem = ({ product, setEditingProduct }: product) => {
   return (
     <div>
       {product.discounts.map((discount, index) => (
-        <ProductItem discount={discount} key={index} />
+        <div className="mb-2" key={index}>
+          <span>
+            {discount.quantity}개 이상 구매 시 {discount.rate * 100}% 할인
+          </span>
+        </div>
       ))}
 
       <button
