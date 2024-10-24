@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Discount, Product } from "../../../../types";
-import { AddDiscount } from "./AddDiscount";
-import { DiscountInfoItem } from "./DiscountInfoItem";
+import { Discount, Product } from "../../../../../types";
+import { ProductAddDiscount } from "./ProductAddDiscount";
+import { ProductDiscountInfoItem } from "./ProductDiscountInfoItem";
 
 interface Props {
   product: Product; // 단일 Product로 수정
@@ -56,7 +56,7 @@ export const ProductDiscountUpdate = ({
       <div>
         <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
         {product.discounts.map((discount, index) => (
-          <DiscountInfoItem
+          <ProductDiscountInfoItem
             key={index}
             discount={discount}
             handleRemoveDiscount={handleRemoveDiscount}
@@ -66,7 +66,10 @@ export const ProductDiscountUpdate = ({
         ))}
 
         {/* 할인 추가 */}
-        <AddDiscount product={product} handleAddDiscount={handleAddDiscount} />
+        <ProductAddDiscount
+          product={product}
+          handleAddDiscount={handleAddDiscount}
+        />
       </div>
 
       {/* 수정 완료 버튼 */}
