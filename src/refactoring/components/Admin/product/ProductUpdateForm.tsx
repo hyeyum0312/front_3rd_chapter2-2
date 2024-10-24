@@ -14,7 +14,7 @@ export const ProductUpdateForm = ({
   handlePriceUpdate,
   handleStockUpdate,
 }: Props) => {
-  const [editingProduct, setEditingProduct] = useState<Omit<Product, "id">>(
+  const [editingProduct, setEditingProduct] = useState<Product>(
     initialEditingProduct
   );
 

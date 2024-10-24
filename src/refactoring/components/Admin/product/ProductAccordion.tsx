@@ -31,6 +31,7 @@ export const ProductAccordion = ({
   };
 
   const { id, name, price, stock } = product;
+
   return (
     <div
       data-testid={`product-${index + 1}`}

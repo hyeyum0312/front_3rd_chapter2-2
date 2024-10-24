@@ -29,7 +29,8 @@ export const AdminPage = ({
     discountValue: 0,
   });
   const [showNewProductForm, setShowNewProductForm] = useState(false);
-  const [newProduct, setNewProduct] = useState<Omit<Product, "id">>({
+  const [newProduct, setNewProduct] = useState<Product>({
+    id: "",
     name: "",
     price: 0,
     stock: 0,
@@ -125,6 +126,7 @@ export const AdminPage = ({
     const productWithId = { ...newProduct, id: Date.now().toString() };
     onProductAdd(productWithId);
     setNewProduct({
+      id: "",
       name: "",
       price: 0,
       stock: 0,
@@ -239,7 +241,7 @@ export const AdminPage = ({
                             onChange={(e) =>
                               handleProductNameUpdate(
                                 product.id,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             className="w-full p-2 border rounded"
@@ -253,7 +255,7 @@ export const AdminPage = ({
                             onChange={(e) =>
                               handlePriceUpdate(
                                 product.id,
-                                parseInt(e.target.value),
+                                parseInt(e.target.value)
                               )
                             }
                             className="w-full p-2 border rounded"
@@ -267,7 +269,7 @@ export const AdminPage = ({
                             onChange={(e) =>
                               handleStockUpdate(
                                 product.id,
-                                parseInt(e.target.value),
+                                parseInt(e.target.value)
                               )
                             }
                             className="w-full p-2 border rounded"
