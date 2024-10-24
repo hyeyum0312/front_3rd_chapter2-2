@@ -29,23 +29,22 @@ const initialProducts: Product[] = [
 ];
 
 interface ProductStore {
-  newProduct: Product; // id를 제외한 새 제품 정보
+  newProduct: Omit<Product, "id">; // ID를 제외한 새 제품 정보
   editingProduct: Product | null; // 수정 중인 제품 정보
   products: Product[]; // 제품 목록
   setProducts: (product: Product[]) => void; // 수정 중인 제품 설정
 
-  setNewProduct: (product: Product) => void;
+  setNewProduct: (product: Omit<Product, "id">) => void; // ID 제외한 새 제품 설정
   clearNewProduct: () => void; // 새 제품 초기화
   setEditingProduct: (product: Product | null) => void; // 수정 중인 제품 설정
 
-  addProduct: (newProduct: Product) => void; // 제품 추가
+  addProduct: (newProduct: Omit<Product, "id">) => void; // 제품 추가
   updateProduct: (updatedProduct: Product) => void; // 제품 업데이트
   setInitialProducts: (initialProducts: Product[]) => void; // 초기 제품 설정
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
   newProduct: {
-    id: "",
     name: "",
     price: 0,
     stock: 0,
@@ -60,7 +59,7 @@ export const useProductStore = create<ProductStore>((set) => ({
   // 새 제품 초기화
   clearNewProduct: () =>
     set({
-      newProduct: { id: "", name: "", price: 0, stock: 0, discounts: [] },
+      newProduct: { name: "", price: 0, stock: 0, discounts: [] },
     }),
 
   // 수정 중인 제품 설정
@@ -68,9 +67,14 @@ export const useProductStore = create<ProductStore>((set) => ({
 
   // 제품 추가
   addProduct: (newProduct) =>
-    set((state) => ({
-      products: [...state.products, newProduct],
-    })),
+    set((state) => {
+      const newId = `p${state.products.length + 1}`; // 자동 ID 생성
+      const productWithId = { id: newId, ...newProduct }; // 새로운 ID를 포함한 제품
+      return {
+        products: [...state.products, productWithId], // 제품 추가
+        newProduct: { name: "", price: 0, stock: 0, discounts: [] }, // 새 제품 초기화
+      };
+    }),
 
   // 제품 업데이트
   updateProduct: (updatedProduct) =>

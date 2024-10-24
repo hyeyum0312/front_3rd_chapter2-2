@@ -24,7 +24,10 @@ export const ProductManager = ({ onProductAdd, onProductUpdate }: Props) => {
 
   // 상품 추가
   const handleAddNewProduct = () => {
-    const productWithId = { ...newProduct, id: Date.now().toString() };
+    const productWithId = { ...newProduct, id: `p${products.length + 1}` };
+    console.log("productWithId", productWithId);
+
+    setNewProduct(productWithId);
     onProductAdd(productWithId);
     clearNewProductForm();
     setShowNewProductForm(false);
@@ -39,7 +42,6 @@ export const ProductManager = ({ onProductAdd, onProductUpdate }: Props) => {
     });
   };
 
-  console.log("products", products);
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">상품 관리</h2>
