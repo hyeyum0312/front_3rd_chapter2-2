@@ -1,16 +1,32 @@
 import { Discount, Product } from "../../../../../types";
+import { useProductStore } from "../../../../store/useProductStore";
 
 interface Props {
   discount: Discount;
-  handleRemoveDiscount: (index: number) => void;
   product: Product;
   index: number;
 }
 export const ProductDiscountInfoItem = ({
+  product,
   discount,
-  handleRemoveDiscount,
   index,
 }: Props) => {
+  const { updateProduct, setEditingProduct } = useProductStore();
+
+  // 할인 정보 삭제
+  const handleRemoveDiscount = (index: number) => {
+    const updatedProduct = {
+      ...product,
+      discounts: product.discounts.filter((_, i) => i !== index),
+    };
+
+    updateProduct(updatedProduct);
+    console.log("updatedProduct >> ", updatedProduct);
+
+    // 상태 업데이트 후, 바로 DOM에 반영되도록 처리
+    setEditingProduct(updatedProduct);
+  };
+
   return (
     <div className="flex justify-between items-center mb-2">
       <span>

@@ -44,34 +44,13 @@ const mockCoupons: Coupon[] = [
 ];
 
 const TestAdminPage = () => {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
   const [coupons, setCoupons] = useState<Coupon[]>(mockCoupons);
-
-  const handleProductUpdate = (updatedProduct: Product) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((p) =>
-        p.id === updatedProduct.id ? updatedProduct : p,
-      ),
-    );
-  };
-
-  const handleProductAdd = (newProduct: Product) => {
-    setProducts((prevProducts) => [...prevProducts, newProduct]);
-  };
 
   const handleCouponAdd = (newCoupon: Coupon) => {
     setCoupons((prevCoupons) => [...prevCoupons, newCoupon]);
   };
 
-  return (
-    <AdminPage
-      products={products}
-      coupons={coupons}
-      onProductUpdate={handleProductUpdate}
-      onProductAdd={handleProductAdd}
-      onCouponAdd={handleCouponAdd}
-    />
-  );
+  return <AdminPage coupons={coupons} onCouponAdd={handleCouponAdd} />;
 };
 
 describe("advanced > ", () => {
@@ -221,24 +200,24 @@ describe("advanced > ", () => {
       fireEvent.click(screen.getByText("할인 추가"));
 
       expect(
-        screen.queryByText("5개 이상 구매 시 5% 할인"),
+        screen.queryByText("5개 이상 구매 시 5% 할인")
       ).toBeInTheDocument();
 
       // 할인 삭제
       fireEvent.click(screen.getAllByText("삭제")[0]);
       expect(
-        screen.queryByText("10개 이상 구매 시 10% 할인"),
+        screen.queryByText("10개 이상 구매 시 10% 할인")
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByText("5개 이상 구매 시 5% 할인"),
+        screen.queryByText("5개 이상 구매 시 5% 할인")
       ).toBeInTheDocument();
 
-      fireEvent.click(screen.getAllByText("삭제")[0]);
+      fireEvent.click(screen.getAllByText("삭제")[1]);
       expect(
-        screen.queryByText("10개 이상 구매 시 10% 할인"),
+        screen.queryByText("10개 이상 구매 시 10% 할인")
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByText("5개 이상 구매 시 5% 할인"),
+        screen.queryByText("5개 이상 구매 시 5% 할인")
       ).not.toBeInTheDocument();
 
       // 4. 쿠폰 추가
