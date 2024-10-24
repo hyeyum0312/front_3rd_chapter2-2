@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Coupon } from "../../../../types";
+import { useCouponStore } from "../../../store/useCouponStore";
 
 interface Props {
   newCoupon: Coupon;
@@ -7,12 +7,7 @@ interface Props {
 }
 
 export const AddCoupon = ({ onCouponAdd }: Props) => {
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    name: "",
-    code: "",
-    discountType: "percentage",
-    discountValue: 0,
-  });
+  const { newCoupon, setNewCoupon } = useCouponStore();
 
   const handleCouponCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewCoupon({ ...newCoupon, code: e.target.value });

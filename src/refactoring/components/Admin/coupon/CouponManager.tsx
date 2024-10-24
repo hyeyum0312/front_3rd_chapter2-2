@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Coupon } from "../../../../types";
 import { AddCoupon } from "./AddCoupon";
 import { CouponListItem } from "./CouponListItem";
+import { useCouponStore } from "../../../store/useCouponStore";
 
 interface Props {
   coupons: Coupon[];
@@ -9,12 +9,7 @@ interface Props {
 }
 
 export const CouponManager = ({ coupons, onCouponAdd }: Props) => {
-  const [newCoupon, setNewCoupon] = useState<Coupon>({
-    name: "",
-    code: "",
-    discountType: "percentage",
-    discountValue: 0,
-  });
+  const { newCoupon } = useCouponStore();
 
   return (
     <div>
