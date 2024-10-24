@@ -2,14 +2,13 @@ import { Discount, Product } from "../../../../types";
 
 interface Props {
   discount: Discount;
-  handleRemoveDiscount: (productId: string, index: number) => void;
+  handleRemoveDiscount: (index: number) => void;
   product: Product;
   index: number;
 }
 export const DiscountInfoItem = ({
   discount,
   handleRemoveDiscount,
-  product,
   index,
 }: Props) => {
   return (
@@ -18,7 +17,7 @@ export const DiscountInfoItem = ({
         {discount.quantity}개 이상 구매 시 {discount.rate * 100}% 할인
       </span>
       <button
-        onClick={() => handleRemoveDiscount(product.id, index)} // 인자 전달
+        onClick={() => handleRemoveDiscount(index)} // 인자 전달
         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
       >
         삭제

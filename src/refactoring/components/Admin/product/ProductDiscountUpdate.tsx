@@ -31,7 +31,7 @@ export const ProductDiscountUpdate = ({
   };
 
   // 할인 정보 추가
-  const handleAddDiscount = (productId: string, newDiscount: Discount) => {
+  const handleAddDiscount = (newDiscount: Discount) => {
     const updatedProduct = {
       ...product,
       discounts: [...product.discounts, newDiscount], // 기존 할인 목록에 추가
@@ -42,7 +42,7 @@ export const ProductDiscountUpdate = ({
   };
 
   // 할인 정보 삭제
-  const handleRemoveDiscount = (productId: string, index: number) => {
+  const handleRemoveDiscount = (index: number) => {
     const updatedProduct = {
       ...product,
       discounts: product.discounts.filter((_, i) => i !== index), // 특정 할인 삭제

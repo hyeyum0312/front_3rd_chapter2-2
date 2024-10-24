@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { NewProductForm } from "./NewProductForm";
 import { Product } from "../../../../types";
-import { ProductListItem } from "./ProductListItem";
-import { ProductUpdate } from "./ProductUpdate";
+import { RenderProductDetail } from "./RenderProductDetail";
 
 interface Props {
   products: Product[];
@@ -28,11 +27,7 @@ export const ProductManager = ({
   const toggleProductAccordion = (productId: string) => {
     setOpenProductIds((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(productId)) {
-        newSet.delete(productId);
-      } else {
-        newSet.add(productId);
-      }
+      newSet.has(productId) ? newSet.delete(productId) : newSet.add(productId);
       return newSet;
     });
   };
@@ -41,13 +36,21 @@ export const ProductManager = ({
   const handleAddNewProduct = () => {
     const productWithId = { ...newProduct, id: Date.now().toString() };
     onProductAdd(productWithId);
+    resetNewProductForm();
+    setShowNewProductForm(false);
+  };
+
+  const resetNewProductForm = () => {
     setNewProduct({
       name: "",
       price: 0,
       stock: 0,
       discounts: [],
     });
-    setShowNewProductForm(false);
+  };
+
+  const handleToggleAccordion = (productId: string) => {
+    toggleProductAccordion(productId);
   };
 
   return (
@@ -69,40 +72,38 @@ export const ProductManager = ({
         />
       )}
 
+      {/* 상품 목록 및 상품 수정 */}
       <div className="space-y-2">
-        {products.map((product, index) => (
-          <div
-            key={product.id}
-            data-testid={`product-${index + 1}`}
-            className="bg-white p-4 rounded shadow"
-          >
-            <button
-              data-testid="toggle-button"
-              onClick={() => toggleProductAccordion(product.id)}
-              className="w-full text-left font-semibold"
-            >
-              {product.name} - {product.price}원 (재고: {product.stock})
-            </button>
+        {products.map((product, index) => {
+          const { id, name, price, stock } = product;
 
-            {openProductIds.has(product.id) && (
-              <div className="mt-2">
-                {editingProduct && editingProduct.id === product.id ? (
-                  <ProductUpdate
+          return (
+            <div
+              key={id}
+              data-testid={`product-${index + 1}`}
+              className="bg-white p-4 rounded shadow"
+            >
+              <button
+                data-testid="toggle-button"
+                onClick={() => handleToggleAccordion(id)} // 핸들러 분리
+                className="w-full text-left font-semibold"
+              >
+                {name} - {price}원 (재고: {stock})
+              </button>
+
+              {openProductIds.has(id) && (
+                <div className="mt-2">
+                  <RenderProductDetail
+                    editingProduct={editingProduct}
                     product={product}
                     onProductUpdate={onProductUpdate}
-                    editingProduct={editingProduct}
                     setEditingProduct={setEditingProduct}
                   />
-                ) : (
-                  <ProductListItem
-                    product={product}
-                    setEditingProduct={setEditingProduct}
-                  />
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

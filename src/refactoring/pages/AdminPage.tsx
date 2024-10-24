@@ -13,9 +13,9 @@ interface Props {
 export const AdminPage = ({
   products,
   coupons,
-  onProductUpdate,
   onProductAdd,
   onCouponAdd,
+  onProductUpdate,
 }: Props) => {
   return (
     <div className="container mx-auto p-4">

@@ -3,7 +3,7 @@ import { Discount, Product } from "../../../../types";
 
 interface Props {
   product: Product;
-  handleAddDiscount: (productId: string, newDiscount: Discount) => void;
+  handleAddDiscount: (newDiscount: Discount) => void;
 }
 
 export const AddDiscount = ({ product, handleAddDiscount }: Props) => {
@@ -40,7 +40,7 @@ export const AddDiscount = ({ product, handleAddDiscount }: Props) => {
       />
 
       <button
-        onClick={() => handleAddDiscount(product.id, newDiscount)} // newDiscount 전달
+        onClick={() => handleAddDiscount(newDiscount)} // newDiscount 전달
         className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
       >
         할인 추가
