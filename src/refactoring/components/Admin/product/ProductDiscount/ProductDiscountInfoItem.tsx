@@ -6,7 +6,7 @@ interface Props {
   product: Product;
   index: number;
 }
-export const DiscountInfoItem = ({
+export const ProductDiscountInfoItem = ({
   discount,
   handleRemoveDiscount,
   index,
