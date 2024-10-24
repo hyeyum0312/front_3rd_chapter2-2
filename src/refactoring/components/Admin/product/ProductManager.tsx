@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { NewProductForm } from "./NewProductForm";
-import { Discount, Product } from "../../../../types";
-import { ProductUpdateForm } from "./ProductUpdateForm";
-import { DiscountInfoItem } from "./DiscountInfoItem";
-import { AddDiscount } from "./AddDiscount";
+import { Product } from "../../../../types";
+import { ProductListItem } from "./ProductListItem";
+import { ProductUpdate } from "./ProductUpdate";
 
 interface Props {
   products: Product[];
@@ -23,11 +22,6 @@ export const ProductManager = ({
     price: 0,
     stock: 0,
     discounts: [],
-  });
-
-  const [newDiscount, setNewDiscount] = useState<Discount>({
-    quantity: 0,
-    rate: 0,
   });
 
   // 상품 클릭 시 토글
@@ -54,72 +48,6 @@ export const ProductManager = ({
       discounts: [],
     });
     setShowNewProductForm(false);
-  };
-
-  // 수정 창 띄우기
-  const handleEditProduct = (product: Product) => {
-    setEditingProduct({ ...product });
-  };
-
-  // 상품이름 업데이트
-  const handleProductNameUpdate = (productId: string, newName: string) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, name: newName };
-      setEditingProduct(updatedProduct);
-    }
-  };
-
-  // 상품가격 업데이트
-  const handlePriceUpdate = (productId: string, newPrice: number) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, price: newPrice };
-      setEditingProduct(updatedProduct);
-    }
-  };
-
-  // 상품재고 업데이트
-  const handleStockUpdate = (productId: string, newStock: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
-    if (updatedProduct) {
-      const newProduct = { ...updatedProduct, stock: newStock };
-      onProductUpdate(newProduct);
-      setEditingProduct(newProduct);
-    }
-  };
-
-  // 수정 완료 핸들러 함수 추가
-  const handleEditComplete = () => {
-    if (editingProduct) {
-      onProductUpdate(editingProduct);
-      setEditingProduct(null);
-    }
-  };
-
-  // 할인정보 추가
-  const handleAddDiscount = (productId: string, newDiscount: Discount) => {
-    const updatedProduct = products.find((p) => p.id === productId);
-    if (updatedProduct && editingProduct) {
-      const newProduct = {
-        ...updatedProduct,
-        discounts: [...updatedProduct.discounts, newDiscount],
-      };
-      onProductUpdate(newProduct);
-      setEditingProduct(newProduct);
-      setNewDiscount({ quantity: 0, rate: 0 });
-    }
-  };
-
-  // 할인 삭제
-  const handleRemoveDiscount = (productId: string, index: number) => {
-    const updatedProduct = products.find((p) => p.id === productId);
-    if (updatedProduct) {
-      const newProduct = {
-        ...updatedProduct,
-        discounts: updatedProduct.discounts.filter((_, i) => i !== index),
-      };
-      onProductUpdate(newProduct);
-      setEditingProduct(newProduct);
-    }
   };
 
   return (
@@ -159,58 +87,17 @@ export const ProductManager = ({
             {openProductIds.has(product.id) && (
               <div className="mt-2">
                 {editingProduct && editingProduct.id === product.id ? (
-                  <div>
-                    <ProductUpdateForm
-                      product={product}
-                      editingProduct={editingProduct}
-                      handleProductNameUpdate={handleProductNameUpdate}
-                      handlePriceUpdate={handlePriceUpdate}
-                      handleStockUpdate={handleStockUpdate}
-                    />
-
-                    {/* 할인 정보 수정 부분 */}
-                    <div>
-                      <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
-                      {editingProduct.discounts.map((discount, index) => (
-                        <DiscountInfoItem
-                          key={index}
-                          discount={discount}
-                          handleRemoveDiscount={handleRemoveDiscount}
-                          product={product}
-                          index={index}
-                        />
-                      ))}
-                      // 할인 추가
-                      <AddDiscount
-                        product={product}
-                        handleAddDiscount={handleAddDiscount}
-                      />
-                    </div>
-                    <button
-                      onClick={handleEditComplete}
-                      className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 mt-2"
-                    >
-                      수정 완료
-                    </button>
-                  </div>
+                  <ProductUpdate
+                    product={product}
+                    onProductUpdate={onProductUpdate}
+                    editingProduct={editingProduct}
+                    setEditingProduct={setEditingProduct}
+                  />
                 ) : (
-                  <div>
-                    {product.discounts.map((discount, index) => (
-                      <div key={index} className="mb-2">
-                        <span>
-                          {discount.quantity}개 이상 구매 시{" "}
-                          {discount.rate * 100}% 할인
-                        </span>
-                      </div>
-                    ))}
-                    <button
-                      data-testid="modify-button"
-                      onClick={() => handleEditProduct(product)}
-                      className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 mt-2"
-                    >
-                      수정
-                    </button>
-                  </div>
+                  <ProductListItem
+                    product={product}
+                    setEditingProduct={setEditingProduct}
+                  />
                 )}
               </div>
             )}

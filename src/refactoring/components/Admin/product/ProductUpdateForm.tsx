@@ -2,15 +2,13 @@ import { Product } from "../../../../types";
 import { useState, useEffect } from "react";
 
 interface Props {
-  product: Product; // 수정할 제품 정보
-  editingProduct: Omit<Product, "id">; // id를 제외한 수정 중인 제품 정보
-  handleProductNameUpdate: (productId: string, newName: string) => void; // 제품 이름 업데이트 함수
-  handlePriceUpdate: (productId: string, newPrice: number) => void; // 가격 업데이트 함수
-  handleStockUpdate: (productId: string, newStock: number) => void; // 재고 업데이트 함수
+  editingProduct: Product; // id를 제외하지 않음
+  handleProductNameUpdate: (newName: string) => void; // 제품 이름 업데이트 함수
+  handlePriceUpdate: (newPrice: number) => void; // 가격 업데이트 함수
+  handleStockUpdate: (newStock: number) => void; // 재고 업데이트 함수
 }
 
 export const ProductUpdateForm = ({
-  product,
   editingProduct: initialEditingProduct,
   handleProductNameUpdate,
   handlePriceUpdate,
@@ -27,17 +25,17 @@ export const ProductUpdateForm = ({
 
   const handleNameChange = (newName: string) => {
     setEditingProduct((prev) => ({ ...prev, name: newName }));
-    handleProductNameUpdate(product.id, newName);
+    handleProductNameUpdate(newName);
   };
 
   const handlePriceChange = (newPrice: number) => {
     setEditingProduct((prev) => ({ ...prev, price: newPrice }));
-    handlePriceUpdate(product.id, newPrice);
+    handlePriceUpdate(newPrice);
   };
 
   const handleStockChange = (newStock: number) => {
     setEditingProduct((prev) => ({ ...prev, stock: newStock }));
-    handleStockUpdate(product.id, newStock);
+    handleStockUpdate(newStock);
   };
 
   return (
