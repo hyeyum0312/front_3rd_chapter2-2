@@ -1,3 +1,4 @@
+import { Product, UpdatedProduct } from "../../../../types";
 import { useProductStore } from "../../../store/useProductStore";
 
 export const ProductUpdateForm = () => {
@@ -6,26 +7,37 @@ export const ProductUpdateForm = () => {
 
   // 상품이름 업데이트
   const handleProductNameUpdate = (newName: string) => {
-    const updatedProduct = { ...editingProduct, name: newName };
+    if (!editingProduct) return;
+    const updatedProduct: UpdatedProduct = { ...editingProduct, name: newName };
     setEditingProduct(updatedProduct);
   };
 
   // 상품가격 업데이트
   const handlePriceUpdate = (newPrice: number) => {
-    if (!editingProduct) {
-      return;
-    }
-    const updatedProduct = { ...editingProduct, price: newPrice };
+    if (!editingProduct) return;
+    const updatedProduct: UpdatedProduct = {
+      ...editingProduct,
+      price: newPrice,
+    };
     setEditingProduct(updatedProduct);
   };
 
   // 상품재고 업데이트
   const handleStockChange = (newStock: number) => {
-    if (!editingProduct) {
-      return;
+    if (!editingProduct) return;
+
+    const updatedProduct: UpdatedProduct = {
+      ...editingProduct,
+      stock: newStock,
+    };
+
+    // 여기에서 id가 반드시 있어야 한다고 가정
+    if (!updatedProduct.id) {
+      throw new Error("Product ID is missing");
     }
-    const updatedProduct = { ...editingProduct, stock: newStock };
-    updateProduct(updatedProduct);
+
+    // ID가 존재할 때만 updateProduct 호출
+    updateProduct(updatedProduct as Product); // Product로 타입 강제 변환
     setEditingProduct(updatedProduct);
   };
 
@@ -38,7 +50,7 @@ export const ProductUpdateForm = () => {
         <input
           id="product-name"
           type="text"
-          value={editingProduct?.name}
+          value={editingProduct?.name || ""}
           onChange={(e) => handleProductNameUpdate(e.target.value)}
           className="w-full p-2 border rounded"
         />
@@ -50,10 +62,10 @@ export const ProductUpdateForm = () => {
         <input
           id="product-price"
           type="number"
-          value={editingProduct?.price}
+          value={editingProduct?.price || 0} // 기본값을 0으로 설정
           onChange={(e) =>
             handlePriceUpdate(Math.max(0, parseInt(e.target.value) || 0))
-          } // 기본값을 0으로 설정
+          }
           className="w-full p-2 border rounded"
         />
       </div>
@@ -64,10 +76,10 @@ export const ProductUpdateForm = () => {
         <input
           id="product-stock"
           type="number"
-          value={editingProduct?.stock}
+          value={editingProduct?.stock || 0} // 기본값을 0으로 설정
           onChange={(e) =>
             handleStockChange(Math.max(0, parseInt(e.target.value) || 0))
-          } // 기본값을 0으로 설정
+          }
           className="w-full p-2 border rounded"
         />
       </div>

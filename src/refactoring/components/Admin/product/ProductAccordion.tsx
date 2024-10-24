@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Product } from "../../../../types";
 import { RenderProductDetail } from "./RenderProductDetail";
-import { useProductStore } from "../../../store/useProductStore";
 
 interface Props {
   index: number;
