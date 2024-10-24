@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CartPage } from "./pages/CartPage.tsx";
 import { AdminPage } from "./pages/AdminPage.tsx";
 import { Coupon, Product } from "../types.ts";
 import { useCoupons, useProducts } from "./hooks";
+import { useProductStore } from "./store/useProductStore.ts";
+import { useCouponStore } from "./store/useCouponStore.ts";
 
 const initialProducts: Product[] = [
   {
@@ -47,9 +49,19 @@ const initialCoupons: Coupon[] = [
 ];
 
 const App = () => {
-  const { products, updateProduct, addProduct } = useProducts(initialProducts);
-  const { coupons, addCoupon } = useCoupons(initialCoupons);
+  const { products, updateProduct, addProduct, setInitialProducts } =
+    useProductStore();
+  const { coupons, addCoupon, setCoupons } = useCouponStore();
+  // const { coupons, addCoupon } = useCoupons(initialCoupons);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    setCoupons(initialCoupons);
+  }, [initialCoupons]);
+
+  useEffect(() => {
+    setInitialProducts(initialProducts);
+  }, [setInitialProducts]);
 
   return (
     <div className="min-h-screen bg-gray-100">

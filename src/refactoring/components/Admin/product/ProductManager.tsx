@@ -10,16 +10,17 @@ interface Props {
   onProductAdd: (newProduct: Product) => void;
 }
 
-export const ProductManager = ({
-  products,
-  onProductAdd,
-  onProductUpdate,
-}: Props) => {
+export const ProductManager = ({ onProductAdd, onProductUpdate }: Props) => {
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [showNewProductForm, setShowNewProductForm] = useState(false);
 
-  const { newProduct, setNewProduct, editingProduct, setEditingProduct } =
-    useProductStore(); // 수정
+  const {
+    products,
+    newProduct,
+    setNewProduct,
+    editingProduct,
+    setEditingProduct,
+  } = useProductStore(); // 수정
 
   // 상품 추가
   const handleAddNewProduct = () => {
@@ -38,6 +39,7 @@ export const ProductManager = ({
     });
   };
 
+  console.log("products", products);
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">상품 관리</h2>
