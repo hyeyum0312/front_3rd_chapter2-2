@@ -9,6 +9,8 @@ interface Props {
 }
 
 export const ProductDiscountUpdate = ({ product }: Props) => {
+  const [updatedProduct, setUpdatedProduct] = useState<Product>(product);
+
   const { editingProduct, setEditingProduct, updateProduct } =
     useProductStore();
 
@@ -42,9 +44,14 @@ export const ProductDiscountUpdate = ({ product }: Props) => {
   const handleRemoveDiscount = (index: number) => {
     const updatedProduct = {
       ...product,
-      discounts: product.discounts.filter((_, i) => i !== index), // 특정 할인 삭제
+      discounts: product.discounts.filter((_, i) => i !== index),
     };
+
+    console.log("updatedProduct", updatedProduct);
+
     updateProduct(updatedProduct);
+
+    // 상태 업데이트 후, 바로 DOM에 반영되도록 처리
     setEditingProduct(updatedProduct);
   };
 
