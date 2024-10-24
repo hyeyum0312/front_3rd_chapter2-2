@@ -1,69 +1,73 @@
-import { Product } from "../../../../types";
-import { useState, useEffect } from "react";
+import { useProductStore } from "../../../store/useProductStore";
 
-interface Props {
-  editingProduct: Product; // id를 제외하지 않음
-  handleProductNameUpdate: (newName: string) => void; // 제품 이름 업데이트 함수
-  handlePriceUpdate: (newPrice: number) => void; // 가격 업데이트 함수
-  handleStockUpdate: (newStock: number) => void; // 재고 업데이트 함수
-}
+export const ProductUpdateForm = () => {
+  const { editingProduct, setEditingProduct, updateProduct } =
+    useProductStore();
 
-export const ProductUpdateForm = ({
-  editingProduct: initialEditingProduct,
-  handleProductNameUpdate,
-  handlePriceUpdate,
-  handleStockUpdate,
-}: Props) => {
-  const [editingProduct, setEditingProduct] = useState<Product>(
-    initialEditingProduct
-  );
-
-  // editingProduct가 변경될 때마다 상태를 업데이트
-  useEffect(() => {
-    setEditingProduct(initialEditingProduct);
-  }, [initialEditingProduct]);
-
-  const handleNameChange = (newName: string) => {
-    setEditingProduct((prev) => ({ ...prev, name: newName }));
-    handleProductNameUpdate(newName);
+  // 상품이름 업데이트
+  const handleProductNameUpdate = (newName: string) => {
+    const updatedProduct = { ...editingProduct, name: newName };
+    setEditingProduct(updatedProduct);
   };
 
-  const handlePriceChange = (newPrice: number) => {
-    setEditingProduct((prev) => ({ ...prev, price: newPrice }));
-    handlePriceUpdate(newPrice);
+  // 상품가격 업데이트
+  const handlePriceUpdate = (newPrice: number) => {
+    if (!editingProduct) {
+      return;
+    }
+    const updatedProduct = { ...editingProduct, price: newPrice };
+    setEditingProduct(updatedProduct);
   };
 
+  // 상품재고 업데이트
   const handleStockChange = (newStock: number) => {
-    setEditingProduct((prev) => ({ ...prev, stock: newStock }));
-    handleStockUpdate(newStock);
+    if (!editingProduct) {
+      return;
+    }
+    const updatedProduct = { ...editingProduct, stock: newStock };
+    updateProduct(updatedProduct);
+    setEditingProduct(updatedProduct);
   };
 
   return (
     <>
       <div className="mb-4">
-        <label className="block mb-1">상품명: </label>
+        <label htmlFor="product-name" className="block mb-1">
+          상품명:{" "}
+        </label>
         <input
+          id="product-name"
           type="text"
-          value={editingProduct.name}
-          onChange={(e) => handleNameChange(e.target.value)}
+          value={editingProduct?.name}
+          onChange={(e) => handleProductNameUpdate(e.target.value)}
           className="w-full p-2 border rounded"
         />
       </div>
       <div className="mb-4">
-        <label className="block mb-1">가격: </label>
+        <label htmlFor="product-price" className="block mb-1">
+          가격:{" "}
+        </label>
         <input
+          id="product-price"
           type="number"
-          value={editingProduct.price}
-          onChange={(e) => handlePriceChange(parseInt(e.target.value) || 0)} // 기본값을 0으로 설정
+          value={editingProduct?.price}
+          onChange={(e) =>
+            handlePriceUpdate(Math.max(0, parseInt(e.target.value) || 0))
+          } // 기본값을 0으로 설정
           className="w-full p-2 border rounded"
         />
       </div>
       <div className="mb-4">
-        <label className="block mb-1">재고: </label>
+        <label htmlFor="product-stock" className="block mb-1">
+          재고:{" "}
+        </label>
         <input
+          id="product-stock"
           type="number"
-          value={editingProduct.stock}
-          onChange={(e) => handleStockChange(parseInt(e.target.value) || 0)} // 기본값을 0으로 설정
+          value={editingProduct?.stock}
+          onChange={(e) =>
+            handleStockChange(Math.max(0, parseInt(e.target.value) || 0))
+          } // 기본값을 0으로 설정
           className="w-full p-2 border rounded"
         />
       </div>

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Product } from "../../types";
+import { Product, UpdatedProduct } from "../../types";
 
 const initialProducts: Product[] = [
   {
@@ -30,13 +30,13 @@ const initialProducts: Product[] = [
 
 interface ProductStore {
   newProduct: Omit<Product, "id">; // ID를 제외한 새 제품 정보
-  editingProduct: Product | null; // 수정 중인 제품 정보
+  editingProduct: UpdatedProduct | null; // 수정 중인 제품 정보
   products: Product[]; // 제품 목록
   setProducts: (product: Product[]) => void; // 수정 중인 제품 설정
 
   setNewProduct: (product: Omit<Product, "id">) => void; // ID 제외한 새 제품 설정
   clearNewProduct: () => void; // 새 제품 초기화
-  setEditingProduct: (product: Product | null) => void; // 수정 중인 제품 설정
+  setEditingProduct: (product: UpdatedProduct | null) => void; // 수정 중인 제품 설정
 
   addProduct: (newProduct: Omit<Product, "id">) => void; // 제품 추가
   updateProduct: (updatedProduct: Product) => void; // 제품 업데이트
@@ -77,12 +77,17 @@ export const useProductStore = create<ProductStore>((set) => ({
     }),
 
   // 제품 업데이트
-  updateProduct: (updatedProduct) =>
-    set((state) => ({
+  updateProduct: (updatedProduct: Product) => {
+    if (!updatedProduct.id) {
+      throw new Error("id가 없으면 오류 발생");
+    }
+
+    return set((state) => ({
       products: state.products.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product
       ),
-    })),
+    }));
+  },
 
   // 초기 제품 설정
   setProducts: (initialProducts: Product[]) =>

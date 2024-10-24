@@ -1,34 +1,19 @@
 import { useState } from "react";
 import { NewProductForm } from "./NewProductForm";
-import { Product } from "../../../../types";
 import { ProductAccordion } from "./ProductAccordion";
 import { useProductStore } from "../../../store/useProductStore";
 
-interface Props {
-  products: Product[];
-  onProductUpdate: (updatedProduct: Product) => void;
-  onProductAdd: (newProduct: Product) => void;
-}
-
-export const ProductManager = ({ onProductAdd, onProductUpdate }: Props) => {
+export const ProductManager = () => {
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [showNewProductForm, setShowNewProductForm] = useState(false);
-
-  const {
-    products,
-    newProduct,
-    setNewProduct,
-    editingProduct,
-    setEditingProduct,
-  } = useProductStore(); // 수정
+  const { products, newProduct, setNewProduct, addProduct } = useProductStore(); // 수정
 
   // 상품 추가
   const handleAddNewProduct = () => {
     const productWithId = { ...newProduct, id: `p${products.length + 1}` };
-    console.log("productWithId", productWithId);
 
     setNewProduct(productWithId);
-    onProductAdd(productWithId);
+    addProduct(productWithId);
     clearNewProductForm();
     setShowNewProductForm(false);
   };
@@ -65,10 +50,7 @@ export const ProductManager = ({ onProductAdd, onProductUpdate }: Props) => {
             key={product.id}
             product={product}
             openProductIds={openProductIds}
-            onProductUpdate={onProductUpdate}
             setOpenProductIds={setOpenProductIds}
-            editingProduct={editingProduct} // 추가
-            setEditingProduct={setEditingProduct} // 추가
           />
         ))}
       </div>

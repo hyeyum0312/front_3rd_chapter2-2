@@ -1,25 +1,20 @@
 import { Dispatch, SetStateAction } from "react";
 import { Product } from "../../../../types";
 import { RenderProductDetail } from "./RenderProductDetail";
+import { useProductStore } from "../../../store/useProductStore";
 
 interface Props {
   index: number;
   product: Product;
   setOpenProductIds: Dispatch<SetStateAction<Set<string>>>; // 수정
   openProductIds: Set<string>;
-  editingProduct: Product | null;
-  onProductUpdate: (updatedProduct: Product) => void;
-  setEditingProduct: (product: Product | null) => void;
 }
 
 export const ProductAccordion = ({
   index,
-  product,
   setOpenProductIds,
   openProductIds,
-  editingProduct,
-  onProductUpdate,
-  setEditingProduct,
+  product,
 }: Props) => {
   // 상품 클릭 시 토글
   const handleToggleAccordion = (productId: string) => {
@@ -47,12 +42,7 @@ export const ProductAccordion = ({
 
       {openProductIds.has(id) && (
         <div className="mt-2">
-          <RenderProductDetail
-            editingProduct={editingProduct}
-            product={product}
-            onProductUpdate={onProductUpdate}
-            setEditingProduct={setEditingProduct}
-          />
+          <RenderProductDetail product={product} />
         </div>
       )}
     </div>

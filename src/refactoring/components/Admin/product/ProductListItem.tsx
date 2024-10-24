@@ -1,10 +1,12 @@
 import { Product } from "../../../../types";
+import { useProductStore } from "../../../store/useProductStore";
 
 interface product {
   product: Product;
-  setEditingProduct: (product: Product | null) => void; // 타입 수정
 }
-export const ProductListItem = ({ product, setEditingProduct }: product) => {
+export const ProductListItem = ({ product }: product) => {
+  const { setEditingProduct } = useProductStore();
+
   const handleEditProduct = (product: Product) => {
     setEditingProduct({ ...product });
   };

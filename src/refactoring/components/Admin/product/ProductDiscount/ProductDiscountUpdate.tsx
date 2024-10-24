@@ -2,30 +2,27 @@ import { useState } from "react";
 import { Discount, Product } from "../../../../../types";
 import { ProductAddDiscount } from "./ProductAddDiscount";
 import { ProductDiscountInfoItem } from "./ProductDiscountInfoItem";
+import { useProductStore } from "../../../../store/useProductStore";
 
 interface Props {
   product: Product; // 단일 Product로 수정
-  onProductUpdate: (updatedProduct: Product) => void;
-  editingProduct: Omit<Product, "id">; // id를 제외한 수정 중인 제품 정보
-  setEditingProduct: (product: Product | null) => void; // 타입 수정
 }
 
-export const ProductDiscountUpdate = ({
-  product,
-  onProductUpdate,
-  editingProduct,
-  setEditingProduct,
-}: Props) => {
+export const ProductDiscountUpdate = ({ product }: Props) => {
+  const { editingProduct, setEditingProduct, updateProduct } =
+    useProductStore();
+
   const [newDiscount, setNewDiscount] = useState<Discount>({
     quantity: 0,
     rate: 0,
   });
 
   // 수정 완료 핸들러 함수
+
   const handleEditComplete = () => {
     if (editingProduct) {
       const updatedProduct = { ...product, ...editingProduct }; // 수정된 정보 병합
-      onProductUpdate(updatedProduct);
+      updateProduct(updatedProduct);
       setEditingProduct(null); // 수정 완료 후 초기화
     }
   };
@@ -36,7 +33,7 @@ export const ProductDiscountUpdate = ({
       ...product,
       discounts: [...product.discounts, newDiscount], // 기존 할인 목록에 추가
     };
-    onProductUpdate(updatedProduct);
+    updateProduct(updatedProduct);
     setEditingProduct(updatedProduct);
     setNewDiscount({ quantity: 0, rate: 0 }); // 새로운 할인 정보 초기화
   };
@@ -47,7 +44,7 @@ export const ProductDiscountUpdate = ({
       ...product,
       discounts: product.discounts.filter((_, i) => i !== index), // 특정 할인 삭제
     };
-    onProductUpdate(updatedProduct);
+    updateProduct(updatedProduct);
     setEditingProduct(updatedProduct);
   };
 

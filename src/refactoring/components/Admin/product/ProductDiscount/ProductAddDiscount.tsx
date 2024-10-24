@@ -6,7 +6,7 @@ interface Props {
   handleAddDiscount: (newDiscount: Discount) => void;
 }
 
-export const ProductAddDiscount = ({ product, handleAddDiscount }: Props) => {
+export const ProductAddDiscount = ({ handleAddDiscount }: Props) => {
   const [newDiscount, setNewDiscount] = useState<Discount>({
     quantity: 0,
     rate: 0,

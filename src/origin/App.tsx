@@ -52,9 +52,7 @@ const App = () => {
 
   const handleProductUpdate = (updatedProduct: Product) => {
     setProducts((prevProducts) =>
-      prevProducts.map((p) =>
-        p.id === updatedProduct.id ? updatedProduct : p,
-      ),
+      prevProducts.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
     );
   };
 
