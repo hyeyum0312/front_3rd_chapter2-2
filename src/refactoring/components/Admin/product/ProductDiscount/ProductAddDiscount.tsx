@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Discount, Product } from "../../../../types";
+import { Discount, Product } from "../../../../../types";
 
 interface Props {
   product: Product;
   handleAddDiscount: (newDiscount: Discount) => void;
 }
 
-export const AddDiscount = ({ product, handleAddDiscount }: Props) => {
+export const ProductAddDiscount = ({ product, handleAddDiscount }: Props) => {
   const [newDiscount, setNewDiscount] = useState<Discount>({
     quantity: 0,
     rate: 0,
